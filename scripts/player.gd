@@ -9,6 +9,7 @@ const WALL_JUMP_DISABLE_TIME: float = 0.12
 const WALL_SLIDE_SPEED: float = 65.0
 const COYOTE_TIME: float = 0.1
 
+var airjumptimer: float = 0
 var last_wall: Vector2 = Vector2.ZERO
 var wall_jump_timer: float = 0.0
 var dash_timer: float = 0.0
@@ -42,6 +43,7 @@ func _physics_process(delta: float) -> void:
 		var rectxsize = rect.size.x
 		rect.size = Vector2(rectxsize - delta *155, 110)
 	if is_on_floor():
+		airjumptimer = 0
 		coyote_timer = COYOTE_TIME
 		was_on_floor = true
 	elif was_on_floor:
@@ -50,6 +52,7 @@ func _physics_process(delta: float) -> void:
 			was_on_floor = false
 
 	if not is_on_floor():
+		airjumptimer += 1
 		velocity += get_gravity() * delta
 
 		var wall_normal = get_wall_normal()
@@ -69,7 +72,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("jump"):
 		minjumptimer = 0.10
-		if is_on_floor():
+		if is_on_floor() or (airjumptimer > 0 and airjumptimer <6):
 			animation_player.play("jump")
 			velocity.y = JUMP_VELOCITY
 			was_on_floor = false
