@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5uuwfuvv68fv"]
+
+[ext_resource type="Script" uid="uid://ddoowt4kp5h5a" path="res://node.gd" id="1_5g7os"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5g7os"]
+radius = 143.031
+
+[node name="Node" type="Node"]
+script = ExtResource("1_5g7os")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -268.0
+offset_top = -186.0
+offset_right = 268.0
+offset_bottom = 186.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 39
+text = "WHAT A HELL
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(518, 350)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_5g7os")
