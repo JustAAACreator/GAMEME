@@ -32,6 +32,9 @@ var was_on_floor: bool = false
 @onready var rect: ColorRect = $"../Gamemanager/CanvasLayer/ColorRect"
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var my_hit_box: Area2D = $MyHitBox
+
+func _ready():
+	my_hit_box.area_entered.connect(_on_area_entered)
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if wall_jump_timer > 0:
@@ -179,8 +182,6 @@ func _physics_process(delta: float) -> void:
 		
 	#KICK SCRIPT
 	move_and_slide()
-func _ready():
-	my_hit_box.area_entered.connect(_on_area_entered)
 	
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy"):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://dha11m8gi0hi1"]
+[gd_scene load_steps=51 format=3 uid="uid://dha11m8gi0hi1"]
 
 [ext_resource type="Script" uid="uid://wc4wu74hh4ic" path="res://scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://cvn0a708xyo1e" path="res://assets/sprites/knight.png" id="1_v0iea"]
@@ -293,6 +293,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3wgy"]
+size = Vector2(12, 11.3333)
+
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_vgqql"]
 points = PackedVector2Array(5, 6, 6, 5.33333, 6, -5.33333, -6, -5.33333, -6, -0.666667, -6, 5.33333, -5, 6)
 
@@ -397,12 +400,18 @@ script = ExtResource("1_cvnsp")
 texture_filter = 1
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"kick"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 5
-frame_progress = 0.987473
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+position = Vector2(0, -9)
+scale = Vector2(1, 1.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["player"]]
+position = Vector2(0, 0.333333)
+shape = SubResource("RectangleShape2D_x3wgy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(0, -9)
 scale = Vector2(1, 1.5)
 shape = SubResource("ConvexPolygonShape2D_vgqql")
@@ -424,11 +433,11 @@ bus = &"SFX"
 stream = ExtResource("4_vgqql")
 bus = &"SFX"
 
-[node name="MyHitBox" type="Area2D" parent="."]
+[node name="MyHitBox" type="Area2D" parent="." groups=["player"]]
 collision_layer = 0
 collision_mask = 4
 
-[node name="kickcollision" type="CollisionShape2D" parent="MyHitBox"]
+[node name="kickcollision" type="CollisionShape2D" parent="MyHitBox" groups=["player"]]
 position = Vector2(10.75, -4.5)
 shape = SubResource("RectangleShape2D_fkybt")
 disabled = true
