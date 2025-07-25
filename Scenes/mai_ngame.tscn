@@ -1,14 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://ch2hlucjpl0rm"]
+[gd_scene load_steps=16 format=3 uid="uid://ch2hlucjpl0rm"]
 
 [ext_resource type="Texture2D" uid="uid://c2qt8m3xmq0qg" path="res://assets/sprites/world_tileset.png" id="1_be1h8"]
 [ext_resource type="PackedScene" uid="uid://dha11m8gi0hi1" path="res://Scenes/player.tscn" id="2_dqxl0"]
 [ext_resource type="Script" uid="uid://ds7ef2qcmddn7" path="res://gamemanager.gd" id="2_n8lrj"]
 [ext_resource type="Texture2D" uid="uid://feprtuhtd32u" path="res://assets/sprites/dashactive.png" id="2_ybtl2"]
+[ext_resource type="Texture2D" uid="uid://c3m4hm6e73seq" path="res://assets/sprites/SLIZNAK.png" id="3_ybtl2"]
 [ext_resource type="PackedScene" uid="uid://dkn56fj574rtv" path="res://Scenes/killzone.tscn" id="5_6rir1"]
 [ext_resource type="PackedScene" uid="uid://ivniylsksjdq" path="res://Scenes/coin.tscn" id="5_ybtl2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1oxcu"]
 font_size = 50
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oxcu"]
+size = Vector2(30, 21)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dqxl0"]
 texture = ExtResource("1_be1h8")
@@ -258,6 +262,24 @@ offset_top = 532.0
 offset_right = 19.0
 offset_bottom = 642.0
 color = Color(0.634872, 0.74741, 0.738831, 0.760784)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Gamemanager"]
+position = Vector2(27, -48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gamemanager/RigidBody2D"]
+position = Vector2(1, 2.5)
+shape = SubResource("RectangleShape2D_1oxcu")
+
+[node name="Sprite2D" type="Sprite2D" parent="Gamemanager/RigidBody2D" groups=["enemy"]]
+texture = ExtResource("3_ybtl2")
+
+[node name="Area2D" type="Area2D" parent="Gamemanager/RigidBody2D/Sprite2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gamemanager/RigidBody2D/Sprite2D/Area2D"]
+position = Vector2(1, 2.5)
+shape = SubResource("RectangleShape2D_1oxcu")
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
