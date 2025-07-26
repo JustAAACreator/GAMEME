@@ -26,6 +26,10 @@ var prev_kick = false
 var kick = false
 var coyote_timer: float = 0.0
 var was_on_floor: bool = false
+var knocktimer: float = 0.0
+var knock: bool = false
+var prevknock: bool = false
+var hp: float = 10
 
 @onready var kik: CollisionShape2D = $MyHitBox/kickcollision
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -37,6 +41,8 @@ func _ready():
 	my_hit_box.area_entered.connect(_on_area_entered)
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
+	if hp <= 0 :
+		print("DIE")
 	if wall_jump_timer > 0:
 		wall_jump_timer -= delta
 	if wall_jump_timer <= 0:
@@ -65,6 +71,17 @@ func _physics_process(delta: float) -> void:
 			moving=true
 			print("moving!")
 		prev_kick = kick
+	if knock != prevknock:
+		if knock:
+			moving=false
+			print("not moving!")
+		else:
+			moving=true
+			print("moving!")
+		prevknock = knock
+	if knock == true and is_on_floor() and knocktimer <= 0.8:
+		knock = false
+		print("gays")
 	if kicktimer <= 0.20:
 		kik.disabled = false
 	if minjumptimer > 0:
@@ -75,6 +92,10 @@ func _physics_process(delta: float) -> void:
 		dash_reload -= delta
 		var rectxsize = rect.size.x
 		rect.size = Vector2(rectxsize - delta *220, 110)
+	if knocktimer > 0:
+		knocktimer -= delta
+	if knocktimer <=0:
+		knock = false
 	if is_on_floor():
 		airjumptimer = 0
 		coyote_timer = COYOTE_TIME
@@ -184,6 +205,18 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func _on_area_entered(area: Area2D) -> void:
+	var enemy = area.owner
 	if area.is_in_group("enemy"):
 		print("UDAR!")
+		enemy.udar(5)
+func knockback(force: float, x_pos : float, up_force: float):
+	if x_pos < global_position.x:
+		velocity = Vector2(force * 2, -force * up_force)	
+	else:
+		velocity = Vector2(-force * 2, -force * up_force)
+	knocktimer = 1
+	knock = true
+func udar(damage):
+	hp -= damage
+	
 	

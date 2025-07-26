@@ -389,7 +389,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
-size = Vector2(10.5, 17)
+size = Vector2(12.5, 17)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
@@ -438,6 +438,6 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="kickcollision" type="CollisionShape2D" parent="MyHitBox" groups=["player"]]
-position = Vector2(10.75, -4.5)
+position = Vector2(11.75, -4.5)
 shape = SubResource("RectangleShape2D_fkybt")
 disabled = true
