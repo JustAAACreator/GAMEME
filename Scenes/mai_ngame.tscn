@@ -1,11 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://ch2hlucjpl0rm"]
+[gd_scene load_steps=17 format=3 uid="uid://ch2hlucjpl0rm"]
 
 [ext_resource type="PackedScene" uid="uid://dsco2mj86ynu0" path="res://Scenes/enemy.tscn" id="1_1oxcu"]
 [ext_resource type="Texture2D" uid="uid://c2qt8m3xmq0qg" path="res://assets/sprites/world_tileset.png" id="1_be1h8"]
 [ext_resource type="PackedScene" uid="uid://dha11m8gi0hi1" path="res://Scenes/player.tscn" id="2_dqxl0"]
 [ext_resource type="Script" uid="uid://ds7ef2qcmddn7" path="res://gamemanager.gd" id="2_n8lrj"]
 [ext_resource type="Texture2D" uid="uid://feprtuhtd32u" path="res://assets/sprites/dashactive.png" id="2_ybtl2"]
+[ext_resource type="Texture2D" uid="uid://yu44xcwc82pu" path="res://assets/sprites/healbar2.png" id="3_1oxcu"]
+[ext_resource type="Texture2D" uid="uid://lv8ot7vu2mm0" path="res://assets/sprites/health.png" id="4_ua214"]
 [ext_resource type="PackedScene" uid="uid://dkn56fj574rtv" path="res://Scenes/killzone.tscn" id="5_6rir1"]
+[ext_resource type="Texture2D" uid="uid://c3rxcsblx40eg" path="res://assets/sprites/damages.png" id="5_k0x86"]
+[ext_resource type="Script" uid="uid://vac4gvn7rnlu" path="res://Scenes/healthbar.gd" id="5_ujlhv"]
 [ext_resource type="PackedScene" uid="uid://ivniylsksjdq" path="res://Scenes/coin.tscn" id="5_ybtl2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1oxcu"]
@@ -191,10 +195,10 @@ script = ExtResource("2_n8lrj")
 [node name="CanvasLayer" type="CanvasLayer" parent="Gamemanager"]
 
 [node name="Label" type="Label" parent="Gamemanager/CanvasLayer"]
-offset_left = 719.0
-offset_top = 569.0
-offset_right = 1152.0
-offset_bottom = 649.0
+offset_left = 729.0
+offset_top = 1059.0
+offset_right = 1162.0
+offset_bottom = 1139.0
 text = "STARS : 0"
 label_settings = SubResource("LabelSettings_1oxcu")
 vertical_alignment = 1
@@ -210,6 +214,39 @@ offset_top = 532.0
 offset_right = 19.0
 offset_bottom = 642.0
 color = Color(0.634872, 0.74741, 0.738831, 0.760784)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Gamemanager/CanvasLayer"]
+offset_left = 729.0
+offset_top = 504.0
+offset_right = 825.0
+offset_bottom = 538.0
+scale = Vector2(4.5, 4.5)
+value = 100.0
+texture_over = ExtResource("3_1oxcu")
+texture_progress = ExtResource("4_ua214")
+script = ExtResource("5_ujlhv")
+
+[node name="TextureProgressBar2" type="TextureProgressBar" parent="Gamemanager/CanvasLayer/TextureProgressBar"]
+z_index = -2
+layout_mode = 0
+offset_left = -0.444444
+offset_right = 95.5556
+offset_bottom = 63.0
+value = 100.0
+texture_progress = ExtResource("5_k0x86")
+
+[node name="ColorRect" type="ColorRect" parent="Gamemanager/CanvasLayer/TextureProgressBar"]
+z_index = -10
+layout_mode = 0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 87.0
+offset_bottom = 24.0
+color = Color(0.151276, 0.151276, 0.151276, 1)
+
+[node name="Timer" type="Timer" parent="Gamemanager/CanvasLayer/TextureProgressBar"]
+wait_time = 0.15
+one_shot = true
 
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
@@ -245,3 +282,5 @@ position = Vector2(-68, -45)
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
 position = Vector2(57, -16)
+
+[connection signal="timeout" from="Gamemanager/CanvasLayer/TextureProgressBar/Timer" to="Gamemanager/CanvasLayer/TextureProgressBar" method="_on_timer_timeout"]

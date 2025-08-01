@@ -29,19 +29,21 @@ var was_on_floor: bool = false
 var knocktimer: float = 0.0
 var knock: bool = false
 var prevknock: bool = false
-var hp: float = 10
-
+var health: float = 10
 @onready var kik: CollisionShape2D = $MyHitBox/kickcollision
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var rect: ColorRect = $"../Gamemanager/CanvasLayer/ColorRect"
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var my_hit_box: Area2D = $MyHitBox
+@onready var bar: TextureProgressBar = $"../Gamemanager/CanvasLayer/TextureProgressBar"
+
 
 func _ready():
+	bar.init_health(health)
 	my_hit_box.area_entered.connect(_on_area_entered)
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if hp <= 0 :
+	if health <= 0 :
 		print("DIE")
 	if wall_jump_timer > 0:
 		wall_jump_timer -= delta
@@ -104,6 +106,8 @@ func _physics_process(delta: float) -> void:
 		coyote_timer -= delta
 		if coyote_timer <= 0:
 			was_on_floor = false
+	
+	
 
 	if not is_on_floor():
 		airjumptimer += 1
@@ -185,7 +189,7 @@ func _physics_process(delta: float) -> void:
 			if moving == true:
 				animated_sprite.play("Idle")
 				
-	if Input.is_action_just_pressed("dash") and dash == false and dash_reload <=0 and kick == false:
+	if Input.is_action_just_pressed("dash") and dash == false and dash_reload <=0 and kick == false and knock == false:
 		dash_reload = 0.50
 		rect.size = Vector2(109, 110)
 		if animated_sprite.flip_h == false:
@@ -194,10 +198,10 @@ func _physics_process(delta: float) -> void:
 			naprovlenie = -1
 		dash = true
 		dash_timer = 0.10
-	if Input.is_action_just_pressed("kick") and dash == false:
+	if Input.is_action_just_pressed("kick") and dash == false and kick == false and knock == false:
 		velocity.x = velocity.x * 0
 		velocity.y = velocity.y * 0
-		kicktimer = 0.50
+		kicktimer = 0.30
 		kick = true
 		animated_sprite.play("kick")
 		
@@ -217,6 +221,8 @@ func knockback(force: float, x_pos : float, up_force: float):
 	knocktimer = 1
 	knock = true
 func udar(damage):
-	hp -= damage
+	health -= damage
+	print(health)
+	bar.health = health
 	
 	
