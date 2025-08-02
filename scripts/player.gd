@@ -38,16 +38,16 @@ var die: bool = false
 @onready var my_hit_box: Area2D = $MyHitBox
 @onready var bar: TextureProgressBar = $"../Gamemanager/CanvasLayer/TextureProgressBar"
 @onready var deathtimer: Timer = $death
-@onready var gpu_particles_2d: GPUParticles2D = $Area2D/GPUParticles2D
-
-
+@onready var particles: GPUParticles2D = $Area2D/GPUParticles2D
+const RIGHT = preload("res://assets/sprites/knightsprite1.png")
+const LEFT = preload("res://assets/sprites/knightspriteL.png")
 
 func _ready():
 	bar.init_health(health)
 	my_hit_box.area_entered.connect(_on_area_entered)
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	gpu_particles_2d.global_position = global_position + Vector2(0,-8)
+	particles.global_position = global_position + Vector2(0,-8)
 	if health <=0:
 		animated_sprite.play("die")
 	if health <= 0 and die == false:
@@ -237,6 +237,13 @@ func udar(damage):
 	print(health)
 	bar.health = health
 func death():
+	var materialll = particles.process_material
+	
+	if animated_sprite.flip_h == false:
+		materialll.set_shader_parameter("sprite", RIGHT)
+	if animated_sprite.flip_h == true:
+		materialll.set_shader_parameter("sprite", LEFT)
+	
 	animation_player.play("die2.0")
 	deathtimer.start()
 	
