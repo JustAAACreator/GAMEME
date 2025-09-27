@@ -31,6 +31,7 @@ var knock: bool = false
 var prevknock: bool = false
 var health: float = 10
 var die: bool = false
+var animationON = false
 @onready var kik: CollisionShape2D = $MyHitBox/kickcollision
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var rect: ColorRect = $"../Gamemanager/CanvasLayer/ColorRect"
@@ -47,177 +48,178 @@ func _ready():
 	my_hit_box.area_entered.connect(_on_area_entered)
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	particles.global_position = global_position + Vector2(0,-8)
-	if health <=0:
-		animated_sprite.play("die")
-	if health <= 0 and die == false:
-		death()
-		die = true
-		velocity = Vector2(0,0)
-		moving = false
-	if wall_jump_timer > 0:
-		wall_jump_timer -= delta
-	if wall_jump_timer <= 0:
-		walljumptrue = false
-	if dash_timer > 0:
-		dash_timer -= delta
-	if dash_timer <= 0:
-		dash = false
-	if kicktimer > 0:
-		kicktimer -= delta
-	if kicktimer <= 0:
-		kick = false
-	if dash != prev_dash:
-		if dash:
-			moving=false
-			print("not moving!")
-		else:
-			moving=true
-			print("moving!")
-		prev_dash = dash
-	if kick != prev_kick:
-		if kick:
-			moving=false
-			print("not moving!")
-		else:
-			moving=true
-			print("moving!")
-		prev_kick = kick
-	if knock != prevknock:
-		if knock:
-			moving=false
-			print("not moving!")
-		else:
-			moving=true
-			print("moving!")
-		prevknock = knock
-	if knock == true and is_on_floor() and knocktimer <= 0.8:
-		knock = false
-		print("gays")
-	if kicktimer <= 0.20:
-		kik.disabled = false
-	if minjumptimer > 0:
-		minjumptimer -= delta
-	if kicktimer <=0:
-		kik.disabled = true
-	if dash_reload >0:
-		dash_reload -= delta
-		var rectxsize = rect.size.x
-		rect.size = Vector2(rectxsize - delta *220, 110)
-	if knocktimer > 0:
-		knocktimer -= delta
-	if knocktimer <=0:
-		knock = false
-	if is_on_floor():
-		airjumptimer = 0
-		coyote_timer = COYOTE_TIME
-		was_on_floor = true
-	elif was_on_floor:
-		coyote_timer -= delta
-		if coyote_timer <= 0:
-			was_on_floor = false
-	
-	
-
-	if not is_on_floor():
-		airjumptimer += 1
-		velocity += get_gravity() * delta
-
-		var wall_normal = get_wall_normal()
-		
-		if is_on_wall() and velocity.y >0 and abs(wall_normal.x) > 0.9:
-			if wall_normal != last_wall:
-				if moving == true:
-					animated_sprite.play("jump")
-				animated_sprite.flip_h = wall_normal.x < 0
-				velocity.y = min(velocity.y, WALL_SLIDE_SPEED)
-		else:
-			if velocity.y >0:
-				if moving == true:
-					animated_sprite.play("jump")
-		
-	else:
-		last_wall = Vector2.ZERO
-	# Handle jump.
-	
-	if Input.is_action_just_pressed("jump"):
-		if moving == true and die == false:
-			minjumptimer = 0.10
-			if is_on_floor() or (airjumptimer > 0 and airjumptimer <6):
-				if moving == true and die == false:
-					animation_player.play("jump")
-				velocity.y = JUMP_VELOCITY
+	if animationON == false:
+		particles.global_position = global_position + Vector2(0,-8)
+		if health <=0:
+			animated_sprite.play("die")
+		if health <= 0 and die == false:
+			death()
+			die = true
+			velocity = Vector2(0,0)
+			moving = false
+		if wall_jump_timer > 0:
+			wall_jump_timer -= delta
+		if wall_jump_timer <= 0:
+			walljumptrue = false
+		if dash_timer > 0:
+			dash_timer -= delta
+		if dash_timer <= 0:
+			dash = false
+		if kicktimer > 0:
+			kicktimer -= delta
+		if kicktimer <= 0:
+			kick = false
+		if dash != prev_dash:
+			if dash:
+				moving=false
+				print("not moving!")
+			else:
+				moving=true
+				print("moving!")
+			prev_dash = dash
+		if kick != prev_kick:
+			if kick:
+				moving=false
+				print("not moving!")
+			else:
+				moving=true
+				print("moving!")
+			prev_kick = kick
+		if knock != prevknock:
+			if knock:
+				moving=false
+				print("not moving!")
+			else:
+				moving=true
+				print("moving!")
+			prevknock = knock
+		if knock == true and is_on_floor() and knocktimer <= 0.8:
+			knock = false
+			print("gays")
+		if kicktimer <= 0.20:
+			kik.disabled = false
+		if minjumptimer > 0:
+			minjumptimer -= delta
+		if kicktimer <=0:
+			kik.disabled = true
+		if dash_reload >0:
+			dash_reload -= delta
+			var rectxsize = rect.size.x
+			rect.size = Vector2(rectxsize - delta *220, 110)
+		if knocktimer > 0:
+			knocktimer -= delta
+		if knocktimer <=0:
+			knock = false
+		if is_on_floor():
+			airjumptimer = 0
+			coyote_timer = COYOTE_TIME
+			was_on_floor = true
+		elif was_on_floor:
+			coyote_timer -= delta
+			if coyote_timer <= 0:
 				was_on_floor = false
-				coyote_timer = 0
-			elif is_on_wall() and abs(get_wall_normal().x) > 0.9:
-				walljumptrue = true
-				wall_jump_timer = WALL_JUMP_DISABLE_TIME
-	if walljumptrue:
-		velocity.y = WALLJUMP_VELOCITY
-		var wall_normal = get_wall_normal()
-		velocity.x = wall_normal.x * WALL_JUMP_PUSH
-		if moving == true and die == false:
-			animated_sprite.play("jump")
-		animated_sprite.flip_h = wall_normal.x <0
-		last_wall = wall_normal
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	if !Input.is_action_pressed("jump") and velocity.y < 0 and minjumptimer >=0:
-		velocity += get_gravity() * delta * 3
 		
-	if animated_sprite.flip_h == false:
-		my_hit_box.scale = Vector2(1, 1)
-	if animated_sprite.flip_h == true:
-		my_hit_box.scale = Vector2(-1, 1)
-	var direction := Input.get_axis("move_left", "move_right")
-	if moving == true and die == false:
-		if direction >0:
-			animated_sprite.flip_h = false
-		if direction <0:
-			animated_sprite.flip_h = true
-	
-	if direction:
-		if dash == true and die == false:
+		
+
+		if not is_on_floor():
+			airjumptimer += 1
+			velocity += get_gravity() * delta
+
+			var wall_normal = get_wall_normal()
+			
+			if is_on_wall() and velocity.y >0 and abs(wall_normal.x) > 0.9:
+				if wall_normal != last_wall:
+					if moving == true:
+						animated_sprite.play("jump")
+					animated_sprite.flip_h = wall_normal.x < 0
+					velocity.y = min(velocity.y, WALL_SLIDE_SPEED)
+			else:
+				if velocity.y >0:
+					if moving == true:
+						animated_sprite.play("jump")
+			
+		else:
+			last_wall = Vector2.ZERO
+		# Handle jump.
+		
+		if Input.is_action_just_pressed("jump"):
+			if moving == true and die == false:
+				minjumptimer = 0.10
+				if is_on_floor() or (airjumptimer > 0 and airjumptimer <6):
+					if moving == true and die == false:
+						animation_player.play("jump")
+					velocity.y = JUMP_VELOCITY
+					was_on_floor = false
+					coyote_timer = 0
+				elif is_on_wall() and abs(get_wall_normal().x) > 0.9:
+					walljumptrue = true
+					wall_jump_timer = WALL_JUMP_DISABLE_TIME
+		if walljumptrue:
+			velocity.y = WALLJUMP_VELOCITY
+			var wall_normal = get_wall_normal()
+			velocity.x = wall_normal.x * WALL_JUMP_PUSH
 			if moving == true and die == false:
 				animated_sprite.play("jump")
-			velocity.x =0
-			velocity.y =0
-			if naprovlenie >0:
-				velocity.x = 1 * 325
-			if naprovlenie <0:
-				velocity.x = -1 * 325
-		if moving == true and die == false:
-			velocity.x = move_toward(velocity.x, direction*SPEED, SPEED * 0.15)
-		if is_on_floor():
-			if moving == true and die == false:
-				animated_sprite.play("run")
-		if moving == true and die == false:
-			animated_sprite.flip_h = direction <0
-	else:
-		if moving == true and die == false:
-			velocity.x= move_toward(velocity.x, 0, SPEED)
-		if is_on_floor():
-			if moving == true:
-				animated_sprite.play("Idle")
-				
-	if Input.is_action_just_pressed("dash") and dash == false and dash_reload <=0 and kick == false and knock == false and die == false:
-		dash_reload = 0.50
-		rect.size = Vector2(109, 110)
+			animated_sprite.flip_h = wall_normal.x <0
+			last_wall = wall_normal
+		# Get the input direction and handle the movement/deceleration.
+		# As good practice, you should replace UI actions with custom gameplay actions.
+		if !Input.is_action_pressed("jump") and velocity.y < 0 and minjumptimer >=0:
+			velocity += get_gravity() * delta * 3
+			
 		if animated_sprite.flip_h == false:
-			naprovlenie = 1
-		else:
-			naprovlenie = -1
-		dash = true
-		dash_timer = 0.10
-	if Input.is_action_just_pressed("kick") and dash == false and kick == false and knock == false and die == false:
-		velocity.x = velocity.x * 0
-		velocity.y = velocity.y * 0
-		kicktimer = 0.30
-		kick = true
-		animated_sprite.play("kick")
+			my_hit_box.scale = Vector2(1, 1)
+		if animated_sprite.flip_h == true:
+			my_hit_box.scale = Vector2(-1, 1)
+		var direction := Input.get_axis("move_left", "move_right")
+		if moving == true and die == false:
+			if direction >0:
+				animated_sprite.flip_h = false
+			if direction <0:
+				animated_sprite.flip_h = true
 		
-	#KICK SCRIPT
-	move_and_slide()
+		if direction:
+			if dash == true and die == false:
+				if moving == true and die == false:
+					animated_sprite.play("jump")
+				velocity.x =0
+				velocity.y =0
+				if naprovlenie >0:
+					velocity.x = 1 * 325
+				if naprovlenie <0:
+					velocity.x = -1 * 325
+			if moving == true and die == false:
+				velocity.x = move_toward(velocity.x, direction*SPEED, SPEED * 0.15)
+			if is_on_floor():
+				if moving == true and die == false:
+					animated_sprite.play("run")
+			if moving == true and die == false:
+				animated_sprite.flip_h = direction <0
+		else:
+			if moving == true and die == false:
+				velocity.x= move_toward(velocity.x, 0, SPEED)
+			if is_on_floor():
+				if moving == true:
+					animated_sprite.play("Idle")
+					
+		if Input.is_action_just_pressed("dash") and dash_reload <=0 and moving == true and die == false:
+			dash_reload = 0.50
+			rect.size = Vector2(109, 110)
+			if animated_sprite.flip_h == false:
+				naprovlenie = 1
+			else:
+				naprovlenie = -1
+			dash = true
+			dash_timer = 0.10
+		if Input.is_action_just_pressed("kick") and moving == true and die == false:
+			velocity.x = velocity.x * 0
+			velocity.y = velocity.y * 0
+			kicktimer = 0.30
+			kick = true
+			animated_sprite.play("kick")
+			
+		#KICK SCRIPT
+		move_and_slide()
 	
 func _on_area_entered(area: Area2D) -> void:
 	var enemy = area.owner
