@@ -6,7 +6,7 @@ extends Area2D
 func _on_body_entered(body: CharacterBody2D) -> void:
 	print("anim")
 	body.animationON = true
-	playeranim.play("end")
+	playeranim.play("ending")
 	await get_tree().create_timer(1.0).timeout
 	camera_2d_2.enabled = true
 	camera_2d_2.make_current()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://ch2hlucjpl0rm"]
+[gd_scene load_steps=71 format=3 uid="uid://ch2hlucjpl0rm"]
 
 [ext_resource type="Script" uid="uid://ds7ef2qcmddn7" path="res://gamemanager.gd" id="1_e6ubj"]
 [ext_resource type="Texture2D" uid="uid://feprtuhtd32u" path="res://assets/sprites/dashactive.png" id="2_x82m2"]
@@ -106,7 +106,7 @@ tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0, 4.1, 7.7, 8.5),
-"transitions": PackedFloat32Array(0.707107, 1, 1, 0.870551),
+"transitions": PackedFloat32Array(0.707107, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1605, 116), Vector2(1854, 116), Vector2(1854, 116), Vector2(1875, 116)]
 }
@@ -127,10 +127,100 @@ tracks/0/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_wgjy3"]
+resource_name = "ending"
+length = 10.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../brokendoor:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6.925),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/ColorRect2:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.111197, 0.111197, 0.111197, 0), Color(0.11, 0.11, 0.11, 1), Color(0.11, 0.11, 0.11, 1), Color(0.111197, 0.111197, 0.111197, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Doornormal:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 6.925),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(6.7, 6.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../AnimatedSprite2D:animation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 5.6, 5.7, 6.5, 6.6, 7.2, 7.3, 9.1, 9.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [&"run", &"run", &"Idle", &"Idle", &"kick", &"kick", &"Idle", &"Idle", &"run"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../AnimatedSprite2D:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.1, 5.2, 5.3, 5.4, 5.5, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 8, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 0, 1, 2, 3, 0, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../AnimatedSprite2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 5.6, 9.2, 10),
+"transitions": PackedFloat32Array(0.707107, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1605, 116), Vector2(1854, 116), Vector2(1854, 116), Vector2(1875, 116)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lrv4c"]
 _data = {
 &"RESET": SubResource("Animation_xioiv"),
-&"end": SubResource("Animation_ntvyp")
+&"end": SubResource("Animation_ntvyp"),
+&"ending": SubResource("Animation_wgjy3")
 }
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dqxl0"]
