@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://dha11m8gi0hi1"]
+[gd_scene load_steps=57 format=3 uid="uid://dha11m8gi0hi1"]
 
 [ext_resource type="Script" uid="uid://wc4wu74hh4ic" path="res://scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://cvn0a708xyo1e" path="res://assets/sprites/knight.png" id="1_v0iea"]
@@ -842,6 +842,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
 size = Vector2(12.5, 17)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8erm5"]
+radius = 100.0
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
@@ -912,5 +915,11 @@ disabled = true
 [node name="death" type="Timer" parent="."]
 wait_time = 4.5
 one_shot = true
+
+[node name="flyenemy" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="flyenemy"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_8erm5")
 
 [connection signal="timeout" from="death" to="." method="_on_death_timeout"]

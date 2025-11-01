@@ -1049,7 +1049,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Player" parent="." instance=ExtResource("9_wgjy3")]
-position = Vector2(1156, 96)
+position = Vector2(-545, -26)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -14)
@@ -1153,7 +1153,7 @@ animation = &"run"
 autoplay = "Idle"
 
 [node name="Prototype-fly" type="Sprite2D" parent="."]
-position = Vector2(-408, -43)
+position = Vector2(-409, -76)
 texture = ExtResource("23_sda17")
 
 [connection signal="timeout" from="Gamemanager/CanvasLayer/playerUI/TextureProgressBar/Timer" to="Gamemanager/CanvasLayer/playerUI/TextureProgressBar" method="_on_timer_timeout"]
