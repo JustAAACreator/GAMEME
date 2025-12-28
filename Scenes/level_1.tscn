@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://cvn0a708xyo1e" path="res://assets/sprites/knight.png" id="17_wgjy3"]
 [ext_resource type="Texture2D" uid="uid://valtd127d3c" path="res://assets/sprites/knightsprite1.png" id="18_4gje0"]
 [ext_resource type="Texture2D" uid="uid://nrbc0h8otvnm" path="res://assets/sprites/knight-Sheet2.png" id="19_gr7qx"]
-[ext_resource type="Texture2D" uid="uid://0mcbmuawc13x" path="res://assets/sprites/prototype-fly.png" id="23_sda17"]
+[ext_resource type="PackedScene" uid="uid://b8q1hamlbqxw3" path="res://Scenes/flyenemy.tscn" id="23_sda17"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1oxcu"]
 font_size = 50
@@ -1049,7 +1049,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Player" parent="." instance=ExtResource("9_wgjy3")]
-position = Vector2(-545, -26)
+position = Vector2(-330, -14)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -14)
@@ -1152,9 +1152,8 @@ sprite_frames = SubResource("SpriteFrames_kc42g")
 animation = &"run"
 autoplay = "Idle"
 
-[node name="Prototype-fly" type="Sprite2D" parent="."]
-position = Vector2(-409, -76)
-texture = ExtResource("23_sda17")
+[node name="CharacterBody2D" parent="." instance=ExtResource("23_sda17")]
+position = Vector2(-658, -46)
 
 [connection signal="timeout" from="Gamemanager/CanvasLayer/playerUI/TextureProgressBar/Timer" to="Gamemanager/CanvasLayer/playerUI/TextureProgressBar" method="_on_timer_timeout"]
 [connection signal="pressed" from="Gamemanager/CanvasLayer/endUI/ButtonNext" to="Gamemanager" method="_on_next_pressed"]

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://drdc8mtua0at0"]
+
+[node name="Fly" type="Node2D"]

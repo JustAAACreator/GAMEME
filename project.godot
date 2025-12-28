@@ -32,6 +32,9 @@ version_control/autoload_on_startup=true
 
 enemy=""
 player=""
+flyout=""
+flyin=""
+flyenemy=""
 
 [input]
 
